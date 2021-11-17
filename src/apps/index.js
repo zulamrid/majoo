@@ -113,7 +113,6 @@ const Index = () => {
             setUpdate(false)
             setForm({
                 ...form,
-                id: 0,
                 title: '',
                 description: '',
                 status: 0
@@ -126,6 +125,7 @@ const Index = () => {
 
     const _addData = () => {
         const last = selector.datas.length
+        console.log(last)
         setForm({
             ...form,
             id: parseInt(last + 1),
