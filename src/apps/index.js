@@ -54,23 +54,27 @@ const AllDatas = (props) => {
     )
 }
 
+const showdata = [
+    {
+        id: 0,
+        val: 0
+    },
+    {
+        id: 0,
+        val: 1
+    },
+]
+
 const Index = () => {
     const dispatch = useDispatch()
     const selector = useSelector(state => state.app)
-
-    const date = new Date()
-    const year = date.getFullYear()
-    const month = date.getMonth()
-    const day = date.getDay()
-    const hour = date.getHours()
-    const min = date.getMinutes()
 
     useEffect(() => {
         dispatch(getAllDatas())
     }, [])
 
     const [form, setForm] = useState({
-        id:1,
+        id: 0,
         title: '',
         description: '',
         status: 0,
@@ -88,15 +92,27 @@ const Index = () => {
         });
     };
 
-    const showModal = () => {
-        setShow(!show)
+    const showModal = (v) => {
+        if(v === 'tambah'){
+            setUpdate(false)
+            setForm({
+                ...form,
+                id: 0,
+                title: '',
+                description: '',
+                status: 0
+            });
+            setShow(!show)
+        }else{
+            setShow(!show)
+        }
     }
 
     const _addData = () => {
         const last = selector.datas.length
         setForm({
             ...form,
-            id: parseInt(last+1),
+            id: parseInt(last + 1),
         });
         dispatch(addData(form))
     }
@@ -110,7 +126,7 @@ const Index = () => {
             description: selector.datas[i].description,
             status: selector.datas[i].status
         });
-        showModal()
+        showModal("update")
     }
 
     const _updateData = () => {
@@ -119,6 +135,33 @@ const Index = () => {
 
     return (
         <div className="container">
+
+            <Button
+                label="+"
+                action={() => showModal("tambah")}
+                disable={false}
+                style={{
+                    position: 'absolute',
+                    borderRadius: 50,
+                    bottom: 30,
+                    right: 50,
+                    height: 60,
+                    width: 60,
+                    border: 0,
+                    fontSize: 30,
+                }}
+            />
+
+            {showdata.map((v, i) =>
+                <div className="col" key={i}>
+                    <AllDatas
+                        all={selector}
+                        status={v.val}
+                        parentData={_setData}
+                    />
+                </div>
+            )}
+
             <Modal
                 show={show}>
                 <div className="form">
@@ -130,33 +173,15 @@ const Index = () => {
                     </select>
                 </div>
                 <Button
-                    label="Tambah"
+                    label={update ? "Update" : "Tambah"}
                     action={update ? _updateData : _addData}
                     disable={false}
+                    style={{
+                        marginTop:20,
+                        width: '100%'
+                     }}
                 />
             </Modal>
-
-            <div className="col">
-                <Button
-                    label="Tambah"
-                    action={showModal}
-                    disable={false}
-                />
-                <AllDatas
-                    all={selector}
-                    status={0}
-                    parentData={_setData}
-                />
-            </div>
-
-            <div className="col">
-                <AllDatas
-                    all={selector}
-                    status={1}
-                    parentData={_setData}
-                />
-            </div>
-
         </div>
     )
 }
