@@ -35,7 +35,7 @@ const AllDatas = (props) => {
                             <td>{v.createdAt}</td>
                             <td><Button
                                 label="e"
-                                action={() => _sentToParent(i)}
+                                action={() => _sentToParent(v.id)}
                                 disable={false}
                                 style={{
                                     borderRadius:50,
@@ -133,15 +133,20 @@ const Index = () => {
         dispatch(addData(form))
     }
 
-    const _setData = (i) => {
+    const _setData = (id) => {
         setUpdate(true)
-        setForm({
-            ...form,
-            id: selector.datas[i].id,
-            title: selector.datas[i].title,
-            description: selector.datas[i].description,
-            status: selector.datas[i].status
-        });
+        selector.datas
+        .filter(data => data.id === id)
+        .map((v, i) => {
+            setForm({
+                ...form,
+                id: v.id,
+                title: v.title,
+                description: v.description,
+                status: v.status
+            });
+        })
+     
         showModal("update")
     }
 
