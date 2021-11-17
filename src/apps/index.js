@@ -37,12 +37,28 @@ const AllDatas = (props) => {
                                 label="e"
                                 action={() => _sentToParent(i)}
                                 disable={false}
+                                style={{
+                                    borderRadius:50,
+                                    border: 0,
+                                    height:20,
+                                    width:20,
+                                    backgroundColor: '#27ae60',
+                                    color: 'white'
+                                }}
                             />
                             </td>
                             <td><Button
                                 label="x"
                                 action={() => _deleteData(v.id)}
                                 disable={props.status === 1 ? true : false}
+                                style={{
+                                    borderRadius:50,
+                                    border: 0,
+                                    height:20,
+                                    width:20,
+                                    backgroundColor: '#c0392b',
+                                    color: 'white'
+                                }}
                             />
                             </td>
                         </tr>
